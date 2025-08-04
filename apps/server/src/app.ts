@@ -14,18 +14,38 @@ import logger from "./middlewares/logger.middleware";
 import { HttpStatusCode } from "./types/http.model.type";
 import { auth } from "./lib/auth";
 import post from "@/modules/post/post.routes";
+import user from "@/modules/user/user.routes";
 
 const app: Express = express();
 const errorHandler = new ErrorHandler(logger);
 
-app.use(
-	cors({
-		origin: process.env.CORS_ORIGIN || "",
-		methods: ["GET", "POST", "OPTIONS"],
-		allowedHeaders: ["Content-Type", "Authorization"],
-		credentials: true,
-	}),
-);
+// CORS configuration
+const corsOptions = {
+	origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+		// Allow requests with no origin (like mobile apps or curl requests)
+		if (!origin) return callback(null, true);
+		
+		const allowedOrigins = [
+			process.env.CORS_ORIGIN,
+			"http://localhost:3000",
+			"http://localhost:3001",
+			"http://127.0.0.1:3000",
+			"http://127.0.0.1:3001"
+		].filter(Boolean);
+		
+		if (allowedOrigins.includes(origin)) {
+			callback(null, true);
+		} else {
+			callback(new Error('Not allowed by CORS'));
+		}
+	},
+	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+	allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+	credentials: true,
+	optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 app.all("/api/auth{/*path}", toNodeHandler(auth));
 
@@ -37,6 +57,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/v1", post);
+app.use("/api/v1", user);
 
 app.use(errorMiddleware);
 

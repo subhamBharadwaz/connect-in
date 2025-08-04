@@ -22,6 +22,8 @@ export interface IGetUserAuthInfoRequest extends Request {
 export const getUserPostsHandler = asyncHandler(
 	async (req: Request, res: Response) => {
 		const { id } = req.params;
+		const page = Number.parseInt(req.query.page as string) || 1;
+		const limit = Number.parseInt(req.query.limit as string) || 10;
 
 		if (!id) {
 			res.status(400).json({
@@ -31,7 +33,7 @@ export const getUserPostsHandler = asyncHandler(
 			return;
 		}
 
-		const userPosts = await getUserPostsService(id);
+		const userPosts = await getUserPostsService(id, page, limit);
 
 		if (!userPosts || userPosts.length === 0) {
 			res.status(404).json({
@@ -69,8 +71,11 @@ export const createPostHandler = asyncHandler(
 @route   GET /api/v1/posts
 @access  Public
 */
-export const getAllPostsHandler = asyncHandler(async (_req, res: Response) => {
-	const posts = await getAllPostsService();
+export const getAllPostsHandler = asyncHandler(async (req: Request, res: Response) => {
+	const page = Number.parseInt(req.query.page as string) || 1;
+	const limit = Number.parseInt(req.query.limit as string) || 10;
+	
+	const posts = await getAllPostsService(page, limit);
 	res.status(200).json({ success: true, posts });
 });
 

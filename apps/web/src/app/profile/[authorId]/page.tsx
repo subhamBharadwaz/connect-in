@@ -1,18 +1,22 @@
 import { Suspense } from "react";
-import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
+import {
+	HydrationBoundary,
+	QueryClient,
+	dehydrate,
+} from "@tanstack/react-query";
 import { notFound } from "next/navigation";
-import { serverPostApi, serverUserApi } from "@/features/post/api/server-client";
+import {
+	serverPostApi,
+	serverUserApi,
+} from "@/features/post/api/server-client";
 import UserProfile from "@/features/user/components/user-profile";
 
-
-interface ProfilePageProps {
-	params: {
-		authorId: string;
-	};
-}
-
-export default async function ProfilePage({ params }: ProfilePageProps) {
-	const { authorId } = params;
+export default async function ProfilePage({
+	params,
+}: {
+	params: Promise<{ authorId: string }>;
+}) {
+	const { authorId } = await params;
 	const queryClient = new QueryClient();
 
 	try {
@@ -25,7 +29,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 		// Prefetch user posts data
 		await queryClient.prefetchInfiniteQuery({
 			queryKey: ["posts", "user", authorId, "infinite"],
-			queryFn: ({ pageParam = 1 }: { pageParam: number }) => 
+			queryFn: ({ pageParam = 1 }: { pageParam: number }) =>
 				serverPostApi.getUserPosts(authorId, pageParam, 10),
 			getNextPageParam: (lastPage: any, allPages: any[]) => {
 				const posts = lastPage?.posts || lastPage?.data?.posts || [];

@@ -11,10 +11,10 @@ export const auth = betterAuth({
     schema: schema,
   }),
   trustedOrigins: [
-    process.env.CORS_ORIGIN || "http://localhost:3000",
+    process.env.CORS_ORIGIN!,
+    process.env.BETTER_AUTH_URL!,
+    "http://localhost:3000",
     "http://localhost:3001",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:3001"
   ],
   emailAndPassword: {
     enabled: true,
@@ -37,22 +37,22 @@ export const auth = betterAuth({
     sessionToken: {
       name: "__Secure-better-auth.session_token",
       httpOnly: true,
-      secure: true,
-      sameSite: "none", // This is crucial for cross-site requests
+      secure: process.env.NODE_ENV === "production", // Only secure in production
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // none for cross-origin in prod
       maxAge: 60 * 60 * 24 * 7, // 7 days
     },
     callbackUrl: {
       name: "__Secure-better-auth.callback_url",
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 60 * 5, // 5 minutes
     },
     csrfToken: {
       name: "__Host-better-auth.csrf_token",
       httpOnly: true,
-      secure: true,
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 60 * 60 * 24, // 24 hours
     },
   },

@@ -19,31 +19,31 @@ import user from "@/modules/user/user.routes";
 const app: Express = express();
 const errorHandler = new ErrorHandler(logger);
 
-// CORS configuration
 const corsOptions = {
-	origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
-		
-		if (!origin) return callback(null, true);
-		
-		const allowedOrigins = [
-			process.env.CORS_ORIGIN,
-			"http://localhost:3000",
-			"http://localhost:3001",
-			"http://127.0.0.1:3000",
-			"http://127.0.0.1:3001"
-		].filter(Boolean);
-		
-		if (allowedOrigins.includes(origin)) {
-			callback(null, true);
-		} else {
-			callback(new Error('Not allowed by CORS'));
-		}
+	origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+	  // Allow requests with no origin (mobile apps, Postman, etc.)
+	  if (!origin) return callback(null, true);
+	  
+	  const allowedOrigins = [
+		process.env.CORS_ORIGIN,
+		"http://localhost:3000",
+		"http://localhost:3001",
+		"http://127.0.0.1:3000",
+		"http://127.0.0.1:3001"
+	  ].filter(Boolean);
+	  
+	  if (allowedOrigins.includes(origin)) {
+		callback(null, true);
+	  } else {
+		console.log(`CORS blocked origin: ${origin}`); // Debug logging
+		callback(new Error('Not allowed by CORS'));
+	  }
 	},
 	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 	allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
 	credentials: true,
 	optionsSuccessStatus: 200
-};
+  }
 
 app.use(cors(corsOptions));
 

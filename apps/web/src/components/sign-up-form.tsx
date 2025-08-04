@@ -6,6 +6,7 @@ import Loader from "./loader";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { Textarea } from "./ui/textarea";
 import { useRouter } from "next/navigation";
 
 export default function SignUpForm({
@@ -21,30 +22,37 @@ export default function SignUpForm({
       email: "",
       password: "",
       name: "",
+      bio: "",
     },
     onSubmit: async ({ value }) => {
-      await authClient.signUp.email(
-        {
-          email: value.email,
-          password: value.password,
-          name: value.name,
-        },
-        {
-          onSuccess: () => {
-            router.push("/dashboard");
-            toast.success("Sign up successful");
+      try {
+        // Create the user account with bio
+        await authClient.signUp.email(
+          {
+            email: value.email,
+            password: value.password,
+            name: value.name,
           },
-          onError: (error) => {
-            toast.error(error.error.message || error.error.statusText);
+          {
+            onSuccess: () => {
+              router.push("/");
+              toast.success("Sign up successful");
+            },
+            onError: (error) => {
+              toast.error(error.error.message || error.error.statusText);
+            },
           },
-        },
-      );
+        );
+      } catch (error) {
+        toast.error("An error occurred during sign up");
+      }
     },
     validators: {
       onSubmit: z.object({
         name: z.string().min(2, "Name must be at least 2 characters"),
         email: z.email("Invalid email address"),
         password: z.string().min(8, "Password must be at least 8 characters"),
+        bio: z.string().max(500, "Bio must be less than 500 characters"),
       }),
     },
   });
@@ -122,6 +130,30 @@ export default function SignUpForm({
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
+                />
+                {field.state.meta.errors.map((error) => (
+                  <p key={error?.message} className="text-red-500">
+                    {error?.message}
+                  </p>
+                ))}
+              </div>
+            )}
+          </form.Field>
+        </div>
+
+        <div>
+          <form.Field name="bio">
+            {(field) => (
+              <div className="space-y-2">
+                <Label htmlFor={field.name}>Bio (Optional)</Label>
+                <Textarea
+                  id={field.name}
+                  name={field.name}
+                  placeholder="Tell us a bit about yourself..."
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  rows={3}
                 />
                 {field.state.meta.errors.map((error) => (
                   <p key={error?.message} className="text-red-500">

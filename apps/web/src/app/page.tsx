@@ -1,31 +1,31 @@
-"use client"
+import { Suspense } from "react";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
+import { serverPostApi } from "@/features/post/api/server-client";
+import Home from "@/components/home";
 
-const TITLE_TEXT = `
- ██████╗ ███████╗████████╗████████╗███████╗██████╗
- ██╔══██╗██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
- ██████╔╝█████╗     ██║      ██║   █████╗  ██████╔╝
- ██╔══██╗██╔══╝     ██║      ██║   ██╔══╝  ██╔══██╗
- ██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
- ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
+export default async function HomePage() {
+	const queryClient = new QueryClient();
 
- ████████╗    ███████╗████████╗ █████╗  ██████╗██╗  ██╗
- ╚══██╔══╝    ██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-    ██║       ███████╗   ██║   ███████║██║     █████╔╝
-    ██║       ╚════██║   ██║   ██╔══██║██║     ██╔═██╗
-    ██║       ███████║   ██║   ██║  ██║╚██████╗██║  ██╗
-    ╚═╝       ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
- `;
+	// Prefetch initial posts data
+	await queryClient.prefetchInfiniteQuery({
+		queryKey: ["posts", "list", "infinite"],
+		queryFn: ({ pageParam = 1 }: { pageParam: number }) => serverPostApi.getAllPosts(pageParam, 10),
+		getNextPageParam: (lastPage: any, allPages: any[]) => {
+			const posts = lastPage?.posts || lastPage?.data?.posts || [];
+			return posts.length === 10 ? allPages.length + 1 : undefined;
+		},
+		initialPageParam: 1,
+	});
 
-export default function Home() {
-
-  return (
-    <div className="container mx-auto max-w-3xl px-4 py-2">
-      <pre className="overflow-x-auto font-mono text-sm">{TITLE_TEXT}</pre>
-      <div className="grid gap-6">
-        <section className="rounded-lg border p-4">
-          <h2 className="mb-2 font-medium">API Status</h2>
-        </section>
-      </div>
-    </div>
-  );
+	return (
+		<HydrationBoundary state={dehydrate(queryClient)}>
+			<div className="min-h-screen bg-background">
+				<main className="container mx-auto px-4 py-4 sm:py-8 max-w-2xl">
+					<Suspense fallback={<div>Loading...</div>}>
+						<Home />
+					</Suspense>
+				</main>
+			</div>
+		</HydrationBoundary>
+	);
 }

@@ -32,6 +32,30 @@ export const auth = betterAuth({
   },
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  // Add cookie configuration for cross-site requests
+  cookies: {
+    sessionToken: {
+      name: "__Secure-better-auth.session_token",
+      httpOnly: true,
+      secure: true,
+      sameSite: "none", // This is crucial for cross-site requests
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    },
+    callbackUrl: {
+      name: "__Secure-better-auth.callback_url",
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 60 * 5, // 5 minutes
+    },
+    csrfToken: {
+      name: "__Host-better-auth.csrf_token",
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24, // 24 hours
+    },
+  },
 });
 
 

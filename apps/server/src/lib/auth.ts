@@ -16,6 +16,12 @@ export const auth = betterAuth({
 		provider: "pg",
 		schema: schema,
 	}),
+	advanced: {
+        crossSubDomainCookies: {
+            enabled: true,
+            domain: process.env.BETTER_AUTH_URL! // your domain
+        },
+    },
 	trustedOrigins: [
 		process.env.CORS_ORIGIN!,
 		process.env.BETTER_AUTH_URL!,

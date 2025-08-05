@@ -22,7 +22,23 @@ export const auth = betterAuth({
 	advanced: {
 		crossSubDomainCookies: {
 			enabled: true,
-			domain: getDomainFromUrl(env.BETTER_AUTH_URL), // your domain
+			// domain: getDomainFromUrl(env.BETTER_AUTH_URL), // your domain
+		},
+		useSecureCookies: env.NODE_ENV === "production",
+		cookies: {
+			session_token: {
+				attributes: {
+					httpOnly: true,
+					secure: env.NODE_ENV === "production",
+					path: "/",
+				}
+			},
+		},
+		defaultCookieAttributes: {
+			
+			secure: env.NODE_ENV === "production",
+			sameSite: "none"
+			
 		},
 	},
 	trustedOrigins: [

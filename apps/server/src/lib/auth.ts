@@ -13,7 +13,7 @@ export const auth = betterAuth({
 	advanced: {
 		crossSubDomainCookies: {
 			enabled: true,
-			domain: env.CORS_ORIGIN, // your domain
+			domain: env.BETTER_AUTH_URL, // your domain
 		},
 	},
 	trustedOrigins: [

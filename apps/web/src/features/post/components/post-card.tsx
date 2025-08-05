@@ -10,7 +10,6 @@ interface PostCardProps {
 	post: Post;
 }
 
-
 const PostCard = ({ post }: PostCardProps) => {
 	const formatTimeAgo = (timestamp: string) => {
 		const postTime = new Date(timestamp);
@@ -21,7 +20,7 @@ const PostCard = ({ post }: PostCardProps) => {
 
 	return (
 		<Card className="w-full shadow-card hover:shadow-elegant transition-all duration-300">
-			<CardContent className="p-6">
+			<CardContent className="p-4 sm:p-6">
 				<div className="flex items-start space-x-3">
 					<Link href={`/profile/${post.authorId}`}>
 						<Avatar className="h-10 w-10 ring-2 ring-accent/50 hover:ring-primary/50 transition-all">
@@ -36,49 +35,49 @@ const PostCard = ({ post }: PostCardProps) => {
 					</Link>
 
 					<div className="flex-1 min-w-0">
-						<div className="flex items-center space-x-2 mb-1">
+						<div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 mb-1">
 							<Link
 								href={`/profile/${post.authorId}`}
 								className="font-semibold text-foreground hover:text-primary transition-colors"
 							>
 								{post.author?.name || `User ${post.authorId.slice(0, 8)}`}
 							</Link>
-							<span className="text-muted-foreground text-sm">•</span>
-							<span className="text-muted-foreground text-sm">
-								{formatTimeAgo(post.createdAt)}
-							</span>
+							<div className="flex items-center space-x-2 text-muted-foreground text-sm">
+								<span className="hidden sm:inline">•</span>
+								<span>{formatTimeAgo(post.createdAt)}</span>
+							</div>
 						</div>
 
-						<p className="text-foreground leading-relaxed mb-4">
+						<p className="text-foreground leading-relaxed mb-4 text-sm sm:text-base">
 							{post.content}
 						</p>
 
-						<div className="flex flex-wrap items-center gap-2 sm:gap-4 pt-2 border-t">
+						<div className="flex items-center gap-1 sm:gap-4 pt-2 border-t">
 							<Button
 								variant="ghost"
 								size="sm"
-								className="hover:text-red-500 transition-colors flex-1 sm:flex-none"
+								className="hover:text-red-500 transition-colors flex-1 sm:flex-none h-8 sm:h-9"
 							>
 								<Heart className="h-4 w-4 mr-1" />
-								<span className="text-sm">0</span>
+								<span className="text-xs sm:text-sm">0</span>
 							</Button>
 
 							<Button
 								variant="ghost"
 								size="sm"
-								className="hover:text-blue-500 transition-colors flex-1 sm:flex-none"
+								className="hover:text-blue-500 transition-colors flex-1 sm:flex-none h-8 sm:h-9"
 							>
 								<MessageCircle className="h-4 w-4 mr-1" />
-								<span className="text-sm hidden xs:inline">Comment</span>
+								<span className="text-xs sm:text-sm hidden sm:inline">Comment</span>
 							</Button>
 
 							<Button
 								variant="ghost"
 								size="sm"
-								className="hover:text-green-500 transition-colors flex-1 sm:flex-none"
+								className="hover:text-green-500 transition-colors flex-1 sm:flex-none h-8 sm:h-9"
 							>
 								<Share2 className="h-4 w-4 mr-1" />
-								<span className="text-sm hidden xs:inline">Share</span>
+								<span className="text-xs sm:text-sm hidden sm:inline">Share</span>
 							</Button>
 						</div>
 					</div>

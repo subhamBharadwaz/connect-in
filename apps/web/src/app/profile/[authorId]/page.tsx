@@ -41,7 +41,7 @@ export default async function ProfilePage({
 		return (
 			<HydrationBoundary state={dehydrate(queryClient)}>
 				<div className="min-h-screen bg-background">
-					<main className="container mx-auto px-4 py-4 sm:py-8 max-w-4xl">
+					<main className="container mx-auto px-4 py-4 sm:py-6 lg:py-8 max-w-4xl">
 						<Suspense fallback={<div>Loading profile...</div>}>
 							<UserProfile authorId={authorId} />
 						</Suspense>

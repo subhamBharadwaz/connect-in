@@ -89,17 +89,17 @@ const UserProfile = ({ authorId }: UserProfileProps) => {
 	}
 
 	return (
-		<div className="space-y-6">
+		<div className="space-y-4 sm:space-y-6">
 			{/* User Profile Card */}
 			<Card className="w-full shadow-elegant">
-				<CardHeader className="relative pb-0">
+				<CardHeader className="relative pb-0 px-4 sm:px-6">
 					{/* Cover background */}
-					<div className="absolute inset-0 h-24 bg-gradient-to-r from-blue-400 to-cyan-400/80 rounded-t-lg" />
+					<div className="absolute inset-0 h-20 sm:h-24 bg-gradient-to-r from-blue-400 to-cyan-400/80 rounded-t-lg" />
 
-					<div className="relative flex flex-col sm:flex-row items-start sm:items-end space-y-4 sm:space-y-0 sm:space-x-4 pt-12">
-						<Avatar className="h-24 w-24 border-4 border-background shadow-lg">
+					<div className="relative flex flex-col sm:flex-row items-start sm:items-end space-y-3 sm:space-y-0 sm:space-x-4 pt-10 sm:pt-12">
+						<Avatar className="h-20 w-20 sm:h-24 sm:w-24 border-4 border-background shadow-lg">
 							<AvatarImage src={userInfo?.image || undefined} alt={userInfo?.name || "User"} />
-							<AvatarFallback className="bg-primary text-foreground text-2xl">
+							<AvatarFallback className="bg-primary text-foreground text-xl sm:text-2xl">
 								{userInfo?.name
 									?.split(" ")
 									.map((n) => n[0])
@@ -110,10 +110,10 @@ const UserProfile = ({ authorId }: UserProfileProps) => {
 						<div className="flex-1 min-w-0">
 							<div className="flex flex-col sm:flex-row sm:items-end sm:justify-between">
 								<div>
-									<h1 className="text-2xl font-bold text-foreground">
+									<h1 className="text-xl sm:text-2xl font-bold text-foreground">
 										{userInfo?.name || `User ${authorId.slice(0, 8)}`}
 									</h1>
-									<p className="text-lg text-muted-foreground">
+									<p className="text-base sm:text-lg text-muted-foreground">
 										{userInfo?.email || "No email available"}
 									</p>
 								</div>
@@ -122,14 +122,14 @@ const UserProfile = ({ authorId }: UserProfileProps) => {
 					</div>
 				</CardHeader>
 
-				<CardContent className="pt-6">
-					<div className="space-y-6">
+				<CardContent className="pt-4 sm:pt-6 px-4 sm:px-6">
+					<div className="space-y-4 sm:space-y-6">
 						{/* Contact Info */}
 						<div className="space-y-3">
-							<h3 className="font-semibold text-foreground">
+							<h3 className="font-semibold text-foreground text-base sm:text-lg">
 								Contact Information
 							</h3>
-							<div className="flex items-center space-x-2 text-muted-foreground">
+							<div className="flex items-center space-x-2 text-muted-foreground text-sm sm:text-base">
 								<Mail className="h-4 w-4" />
 								<span>{userInfo?.email || "No email available"}</span>
 							</div>
@@ -141,10 +141,10 @@ const UserProfile = ({ authorId }: UserProfileProps) => {
 							) : (
 								<div className="flex items-center space-x-2 text-muted-foreground">
 									<Edit className="h-4 w-4" />
-									<span>No bio available</span>
+									<span className="text-sm sm:text-base">No bio available</span>
 								</div>
 							)}
-							<div className="flex items-center space-x-2 text-muted-foreground">
+							<div className="flex items-center space-x-2 text-muted-foreground text-sm sm:text-base">
 								<Calendar className="h-4 w-4" />
 								<span>
 									Member since {userInfo?.createdAt 
@@ -156,18 +156,18 @@ const UserProfile = ({ authorId }: UserProfileProps) => {
 						</div>
 
 						{/* Stats */}
-						<div className="grid grid-cols-3 gap-4 pt-4 border-t">
+						<div className="grid grid-cols-3 gap-2 sm:gap-4 pt-4 border-t">
 							<div className="text-center">
-								<div className="text-2xl font-bold text-primary">0</div>
-								<div className="text-sm text-muted-foreground">Connections</div>
+								<div className="text-xl sm:text-2xl font-bold text-primary">0</div>
+								<div className="text-xs sm:text-sm text-muted-foreground">Connections</div>
 							</div>
 							<div className="text-center">
-								<div className="text-2xl font-bold text-primary">{allPosts.length}</div>
-								<div className="text-sm text-muted-foreground">Posts</div>
+								<div className="text-xl sm:text-2xl font-bold text-primary">{allPosts.length}</div>
+								<div className="text-xs sm:text-sm text-muted-foreground">Posts</div>
 							</div>
 							<div className="text-center">
-								<div className="text-2xl font-bold text-primary">0</div>
-								<div className="text-sm text-muted-foreground">Views</div>
+								<div className="text-xl sm:text-2xl font-bold text-primary">0</div>
+								<div className="text-xs sm:text-sm text-muted-foreground">Views</div>
 							</div>
 						</div>
 					</div>

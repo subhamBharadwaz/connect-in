@@ -47,7 +47,7 @@ const CreatePostForm = ({ onPostCreated }: CreatePostFormProps) => {
 	if (isPending) {
 		return (
 			<Card className="w-full shadow-card">
-				<CardContent className="p-6">
+				<CardContent className="p-4 sm:p-6">
 					<div className="flex items-center justify-center">
 						<div className="text-muted-foreground">Loading...</div>
 					</div>
@@ -60,7 +60,7 @@ const CreatePostForm = ({ onPostCreated }: CreatePostFormProps) => {
 	if (!session) {
 		return (
 			<Card className="w-full shadow-card">
-				<CardContent className="p-6">
+				<CardContent className="p-4 sm:p-6">
 					<div className="text-center text-muted-foreground">
 						Please log in to create a post.
 					</div>
@@ -71,10 +71,10 @@ const CreatePostForm = ({ onPostCreated }: CreatePostFormProps) => {
 
 	return (
 		<Card className="w-full shadow-card">
-			<CardHeader className="pb-4">
-				<CardTitle className="text-lg">Share your thoughts</CardTitle>
+			<CardHeader className="pb-4 px-4 sm:px-6">
+				<CardTitle className="text-base sm:text-lg">Share your thoughts</CardTitle>
 			</CardHeader>
-			<CardContent>
+			<CardContent className="px-4 sm:px-6">
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 					<div className="flex items-start space-x-3">
 						<Avatar className="h-10 w-10">
@@ -90,7 +90,7 @@ const CreatePostForm = ({ onPostCreated }: CreatePostFormProps) => {
 						<div className="flex-1">
 							<div
 								className={`
-                  relative min-h-[100px] p-4 rounded-lg border-2 transition-all duration-300
+                  relative min-h-[100px] p-3 sm:p-4 rounded-lg border-2 transition-all duration-300
                   ${
 										isFocused
 											? "border-primary bg-accent/20 shadow-elegant"
@@ -104,7 +104,7 @@ const CreatePostForm = ({ onPostCreated }: CreatePostFormProps) => {
 									onFocus={() => setIsFocused(true)}
 									onBlur={() => setIsFocused(false)}
 									placeholder="What's on your mind? Share your professional insights..."
-									className="w-full h-full min-h-[60px] bg-transparent border-none outline-none resize-none placeholder:text-muted-foreground text-foreground"
+									className="w-full h-full min-h-[60px] bg-transparent border-none outline-none resize-none placeholder:text-muted-foreground text-foreground text-sm sm:text-base"
 									rows={3}
 								/>
 
@@ -122,40 +122,40 @@ const CreatePostForm = ({ onPostCreated }: CreatePostFormProps) => {
 							)}
 
 							<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 space-y-3 sm:space-y-0">
-								<div className="flex flex-wrap items-center gap-2">
+								<div className="flex flex-wrap items-center gap-1 sm:gap-2">
 									<Button
 										type="button"
 										variant="ghost"
 										size="sm"
-										className="text-muted-foreground hover:text-primary"
+										className="text-muted-foreground hover:text-primary h-8 sm:h-9"
 									>
 										<Image className="h-4 w-4 mr-1" />
-										<span className="hidden xs:inline">Photo</span>
+										<span className="text-xs sm:text-sm hidden sm:inline">Photo</span>
 									</Button>
 									<Button
 										type="button"
 										variant="ghost"
 										size="sm"
-										className="text-muted-foreground hover:text-primary"
+										className="text-muted-foreground hover:text-primary h-8 sm:h-9"
 									>
 										<Video className="h-4 w-4 mr-1" />
-										<span className="hidden xs:inline">Video</span>
+										<span className="text-xs sm:text-sm hidden sm:inline">Video</span>
 									</Button>
 									<Button
 										type="button"
 										variant="ghost"
 										size="sm"
-										className="text-muted-foreground hover:text-primary"
+										className="text-muted-foreground hover:text-primary h-8 sm:h-9"
 									>
 										<FileText className="h-4 w-4 mr-1" />
-										<span className="hidden xs:inline">Document</span>
+										<span className="text-xs sm:text-sm hidden sm:inline">Document</span>
 									</Button>
 								</div>
 
 								<Button
 									type="submit"
 									disabled={!content?.trim() || isSubmitting || createPostMutation.isPending}
-									className="w-full sm:w-auto text-foreground"
+									className="w-full sm:w-auto text-foreground h-9 sm:h-10"
 								>
 									<Send className="h-4 w-4 mr-2 text-foreground" />
 									{createPostMutation.isPending ? "Posting..." : "Post"}

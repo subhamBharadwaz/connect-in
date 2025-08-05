@@ -5,6 +5,15 @@ import * as schema from "../db/schema/auth";
 import { eq } from "drizzle-orm";
 import env from "@/env";
 
+const getDomainFromUrl = (url: string) => {
+	try {
+		const urlObj = new URL(url);
+		return urlObj.hostname;
+	} catch {
+		return undefined;
+	}
+};
+
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
 		provider: "pg",
@@ -13,7 +22,7 @@ export const auth = betterAuth({
 	advanced: {
 		crossSubDomainCookies: {
 			enabled: true,
-			domain: env.BETTER_AUTH_URL, // your domain
+			domain: getDomainFromUrl(env.BETTER_AUTH_URL), // your domain
 		},
 	},
 	trustedOrigins: [

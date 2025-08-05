@@ -7,7 +7,7 @@ export const requireAuth = async (
 	next: NextFunction,
 ) => {
 	try {
-		const sessionToken = req.cookies?.["__Secure-better-auth.session_token"];
+		const sessionToken = req.cookies?.["better-auth.session_token"];
 
 		if (!sessionToken) {
 			return res.status(401).json({

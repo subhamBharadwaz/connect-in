@@ -1,4 +1,4 @@
-# ConnectIn 🚀
+9# ConnectIn 🚀
 
 A modern social networking platform built with cutting-edge technologies for seamless user connections and content sharing.
 
@@ -85,7 +85,7 @@ A modern social networking platform built with cutting-edge technologies for sea
 
    Create `.env.local` file in `apps/web/`:
    ```env
-   NEXT_PUBLIC_API_URL=http://localhost:3000
+   NEXT_PUBLIC_SERVER_URL=http://localhost:3000
    ```
 
 4. **Set up the database**
